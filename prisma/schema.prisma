@@ -1,0 +1,119 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "generated/prisma/client"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                   String        @id @default(cuid())
+  email                String        @unique
+  name                 String
+  password             String
+  createdAt            DateTime      @default(now())
+  updatedAt            DateTime      @updatedAt
+  isActive             Boolean       @default(true)
+  resetPasswordToken   String?
+  resetPasswordExpires DateTime?
+  links                Link[]
+  subscription         Subscription?
+
+  totalClicks Int @default(0)
+}
+
+model Plan {
+  id                  String   @id @default(cuid())
+  name                String   @unique
+  description         String
+  price               Float
+  currency            String
+  interval            String   @default("month")
+  linkLimit           Int
+  clicksIncluded      Int
+  customDomainAllowed Boolean  @default(false)
+  analyticsAccess     Boolean  @default(false)
+  apiAccess           Boolean  @default(false)
+  active              Boolean  @default(true)
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  subscriptions Subscription[]
+}
+
+model Subscription {
+  id                 String   @id @default(cuid())
+  userId             String   @unique
+  planId             String
+  status             String   @default("active")
+  currentPeriodStart DateTime @default(now())
+  currentPeriodEnd   DateTime
+  cancelAtPeriodEnd  Boolean  @default(false)
+  linksCreated       Int      @default(0)
+  clicksUsed         Int      @default(0)
+  paymentProviderId  String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  plan Plan @relation(fields: [planId], references: [id])
+}
+
+model Link {
+  id           String    @id @default(cuid())
+  userId       String
+  originalUrl  String    @db.Text
+  shortCode    String    @unique
+  title        String?
+  description  String?   @db.Text
+  customDomain String?
+  isActive     Boolean   @default(true)
+  expiresAt    DateTime?
+  password     String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  clicks Click[]
+  tags   TagsOnLinks[]
+
+  totalClicks Int @default(0)
+}
+
+model Click {
+  id        String   @id @default(cuid())
+  linkId    String
+  timestamp DateTime @default(now())
+
+  ip              String?
+  userAgent       String? @db.Text
+  referrer        String? @db.Text
+  country         String?
+  city            String?
+  device          String?
+  browser         String?
+  operatingSystem String?
+
+  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+}
+
+model Tag {
+  id        String        @id @default(cuid())
+  name      String        @unique
+  createdAt DateTime      @default(now())
+  isActive  Boolean       @default(true)
+  links     TagsOnLinks[]
+}
+
+model TagsOnLinks {
+  linkId     String
+  tagId      String
+  assignedAt DateTime @default(now())
+
+  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  tag  Tag  @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@id([linkId, tagId])
+}
