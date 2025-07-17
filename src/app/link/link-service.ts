@@ -1,4 +1,4 @@
-import { countLinksDao, createLinkDao, deleteLinkDao, getLinkByIdUserDao, stateChangeLinkDao, updateLinkDao } from "./link-dao";
+import { createLinkDao, deleteLinkDao, getLinkByIdUserDao, stateChangeLinkDao, updateLinkDao } from "./link-dao";
 
 
 export const createLinkService = async (link: LinkModelI) => {
@@ -12,10 +12,6 @@ export const updateLinkService = async (link: LinkUpdateModelI) => {
 export const getLinkByIdUserService = async (query: getLinksByIdUserModelI) => {
   return await getLinkByIdUserDao(query);
 }
-
-export const countLinksService = async (id: string) => {
-  return await countLinksDao(id);
-};
 
 export const stateChangeLinkService = async (id: string) => {
   return await stateChangeLinkDao(id);

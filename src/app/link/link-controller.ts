@@ -41,17 +41,6 @@ export const getLinkByIdUserController = async (req: Request, res: Response) => 
   }
 }
 
-export const countLinksController = async (req: Request, res: Response) => {
-  try {
-    const { id } = matchedData<{ id: string }>(req);
-    const link = await countLinksService(id);
-    sendResponse(res, "success", StatusCodes.OK, "Enlace actualizado", link);
-    loggerInfo("Enlaces encontrados", req, null);
-  } catch (error) {
-    validateErrorCatch(res, req, error)
-  }
-}
-
 export const stateChangeLinkController = async (req: Request, res: Response) => {
   try {
     const { id } = matchedData<{ id: string }>(req);

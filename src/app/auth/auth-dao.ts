@@ -48,7 +48,7 @@ export const loginDao = async (
   };
 };
 
-export const registerDao = async (register: RegisterModelI): Promise<User> => {
+export const registerDao = async (register: UserModelI): Promise<User> => {
   const dateNow = currentDate();
   const user = await prisma.user.findUnique({
     where: {
@@ -73,61 +73,61 @@ export const registerDao = async (register: RegisterModelI): Promise<User> => {
   return userCreate;
 };
 
-export const forgotPassword = async (email: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+// export const forgotPassword = async (email: string) => {
+//   const user = await prisma.user.findUnique({
+//     where: {
+//       email,
+//     },
+//   });
 
-  if (!user) throw new NotFoundError("user not found");
+//   if (!user) throw new NotFoundError("user not found");
 
-  const resetToken = crypto.randomUUID();
-  const resetExpires = new Date(Date.now() + 60 * 60 * 1000);
+//   const resetToken = crypto.randomUUID();
+//   const resetExpires = new Date(Date.now() + 60 * 60 * 1000);
 
-  const userUpdate = await prisma.user.update({
-    where: { id: user.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      isActive: true,
-    },
-    data: {
-      resetPasswordToken: resetToken,
-      resetPasswordExpires: resetExpires,
-    },
-  });
+//   const userUpdate = await prisma.user.update({
+//     where: { id: user.id },
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//       isActive: true,
+//     },
+//     data: {
+//       resetPasswordToken: resetToken,
+//       resetPasswordExpires: resetExpires,
+//     },
+//   });
 
-  // await sendPasswordResetEmail(email, resetToken);
-  return userUpdate;
-};
+//   // await sendPasswordResetEmail(email, resetToken);
+//   return userUpdate;
+// };
 
-export const resetPassword = async (email: string, password: string) => {
-  const user = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+// export const resetPassword = async (email: string, password: string) => {
+//   const user = await prisma.user.findUnique({
+//     where: {
+//       email,
+//     },
+//   });
 
-  if (!user) throw new NotFoundError("user not found");
+//   if (!user) throw new NotFoundError("user not found");
 
-  const passwordHash = await hashPassword(password);
+//   const passwordHash = await hashPassword(password);
 
-  const userUpdate = await prisma.user.update({
-    where: { id: user.id },
-    select: {
-      id: true,
-      name: true,
-      email: true,
-      isActive: true,
-    },
-    data: {
-      password: passwordHash,
-      resetPasswordToken: null,
-      resetPasswordExpires: null,
-    },
-  });
+//   const userUpdate = await prisma.user.update({
+//     where: { id: user.id },
+//     select: {
+//       id: true,
+//       name: true,
+//       email: true,
+//       isActive: true,
+//     },
+//     data: {
+//       password: passwordHash,
+//       resetPasswordToken: null,
+//       resetPasswordExpires: null,
+//     },
+//   });
 
-  return userUpdate;
-};
+//   return userUpdate;
+// };

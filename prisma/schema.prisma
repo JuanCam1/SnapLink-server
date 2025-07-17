@@ -9,18 +9,15 @@ datasource db {
 }
 
 model User {
-  id                 String   @id @default(cuid())
-  email              String   @unique
-  name               String
-  password           String
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
-  isActive           Boolean  @default(true)
-  resetPasswordToken String?
-  maxLinks           Int      @default(50)
-  links              Link[]
-
-  totalClicks Int @default(0)
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  isActive  Boolean  @default(true)
+  maxLinks  Int      @default(50)
+  links     Link[]
 }
 
 model Link {
@@ -37,27 +34,8 @@ model Link {
   updatedAt   DateTime  @updatedAt
   time        Int       @default(0)
 
-  user   User          @relation(fields: [userId], references: [id], onDelete: Cascade)
-  clicks Click[]
-  tags   TagsOnLinks[]
-
-  totalClicks Int @default(0)
-}
-
-model Click {
-  id        String   @id @default(cuid())
-  linkId    String
-  timestamp DateTime @default(now())
-
-  ip              String?
-  userAgent       String? @db.Text
-  country         String?
-  city            String?
-  device          String?
-  browser         String?
-  operatingSystem String?
-
-  link Link @relation(fields: [linkId], references: [id], onDelete: Cascade)
+  user User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  tags TagsOnLinks[]
 }
 
 model Tag {

@@ -13,6 +13,7 @@ import type {
   ResponseLoginModel,
 } from "./auth-model";
 import type { getLinksByIdUserModel, LinkModel, LinkUpdateModel } from "./link-model";
+import type { UserModel, UserUpdateModel } from "./user-model";
 
 declare global {
   type SendResponseI<T> = SendResponse<T>;
@@ -23,9 +24,10 @@ declare global {
   type PaginationAllI = PaginationAll;
   type TokenDataI = TokenData;
   type LoginModelI = LoginModel;
-  type RegisterModelI = RegisterModel;
   type PayloadModelI = PayloadModel;
   type ResponseLoginModelI = ResponseLoginModel;
+  type UserModelI = UserModel;
+  type UserUpdateModelI = UserUpdateModel;
 
   type LinkModelI = LinkModel;
   type LinkUpdateModelI = LinkUpdateModel;

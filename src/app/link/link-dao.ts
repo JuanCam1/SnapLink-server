@@ -24,7 +24,6 @@ export const createLinkDao = async (link: LinkModelI) => {
     userId: link.userId,
     createdAt: currentNow,
     updatedAt: currentNow,
-    totalClicks: 0,
     isActive: true,
     expiresAt: new Date(link.expiresAt),
     password: link.password,
@@ -118,21 +117,6 @@ export const getLinkByIdUserDao = async (query: getLinksByIdUserModelI) => {
     totalPages: Math.ceil(total / limitNum),
   };
 };
-
-export const countLinksDao = async (id: string) => {
-  const linksDb = await prisma.link.count({
-    where: { id },
-  });
-
-  const link = await prisma.link.update({
-    where: { id },
-    data: {
-      totalClicks: linksDb + 1
-    }
-  })
-
-  return link;
-}
 
 export const getByIdLinkDao = async (id: string) => {
   const linksDb = await prisma.link.findUnique({

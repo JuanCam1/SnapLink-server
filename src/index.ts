@@ -26,7 +26,7 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 	next();
 });
 
-app.use("/api", router);
+app.use("/api/v1", router);
 
 const port = Config.getInstance().get("port")
 

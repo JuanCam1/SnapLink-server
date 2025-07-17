@@ -3,11 +3,6 @@ export interface LoginModel {
   password: string;
 }
 
-export interface RegisterModel {
-  name: string;
-  email: string;
-  password: string;
-}
 
 export interface PayloadModel {
   id: string;

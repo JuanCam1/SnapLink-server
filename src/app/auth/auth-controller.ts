@@ -2,10 +2,8 @@ import type { Request, Response } from "express";
 import { StatusCodes } from "http-status-codes";
 
 import {
-	forgotPasswordService,
 	loginService,
 	registerService,
-	resetPasswordService,
 } from "./auth-service";
 import { sendResponse } from "../../util/sendResponse";
 import { matchedData } from "express-validator";
@@ -25,13 +23,13 @@ export const login = async (req: Request, res: Response) => {
 			dataLogin,
 		);
 	} catch (error) {
-		validateErrorCatch(res, error);
+		validateErrorCatch(res, req, error);
 	}
 };
 
 export const register = async (req: Request, res: Response) => {
 	try {
-		const register = matchedData<RegisterModelI>(req);
+		const register = matchedData<UserModelI>(req);
 		const builders = await registerService(register);
 		sendResponse<User>(
 			res,
@@ -41,32 +39,32 @@ export const register = async (req: Request, res: Response) => {
 			builders,
 		);
 	} catch (error) {
-		validateErrorCatch(res, error);
+		validateErrorCatch(res, req, error);
 	}
 };
 
-export const forgotPassword = async (req: Request, res: Response) => {
-	try {
-		const { email } = matchedData<{ email: string }>(req);
-		const buildersCreated = await forgotPasswordService(email);
-		sendResponse(
-			res,
-			"success",
-			StatusCodes.OK,
-			" Password reseted",
-			buildersCreated,
-		);
-	} catch (error) {
-		validateErrorCatch(res, error);
-	}
-};
+// export const forgotPassword = async (req: Request, res: Response) => {
+// 	try {
+// 		const { email } = matchedData<{ email: string }>(req);
+// 		const buildersCreated = await forgotPasswordService(email);
+// 		sendResponse(
+// 			res,
+// 			"success",
+// 			StatusCodes.OK,
+// 			" Password reseted",
+// 			buildersCreated,
+// 		);
+// 	} catch (error) {
+// 		validateErrorCatch(res, req, error);
+// 	}
+// };
 
-export const resetPassword = async (req: Request, res: Response) => {
-	try {
-		const { email, password } = matchedData<LoginModelI>(req);
-		const user = await resetPasswordService(email, password);
-		sendResponse(res, "success", StatusCodes.OK, "Password reseted", user);
-	} catch (error) {
-		validateErrorCatch(res, error);
-	}
-};
+// export const resetPassword = async (req: Request, res: Response) => {
+// 	try {
+// 		const { email, password } = matchedData<LoginModelI>(req);
+// 		const user = await resetPasswordService(email, password);
+// 		sendResponse(res, "success", StatusCodes.OK, "Password reseted", user);
+// 	} catch (error) {
+// 		validateErrorCatch(res, req, error);
+// 	}
+// };
