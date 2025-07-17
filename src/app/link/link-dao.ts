@@ -1,8 +1,8 @@
+import { prisma } from "../../lib/prisma";
 import type { Link } from "../../../prisma/generated/prisma/client";
 import { NotFoundError } from "../../error/not-found-error";
 import { capitalizeText } from "../../lib/capitalize";
 import { currentDate } from "../../lib/current-date-hour";
-import { prisma } from "../../lib/prisma";
 import { generateSlug } from "../../util/generate-slug";
 
 export const createLinkDao = async (link: LinkModelI) => {

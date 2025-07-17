@@ -1,9 +1,8 @@
 export interface LinkModel {
-  userId: string;
-  originalUrl: string;
-  shortCode: string;
   title: string;
   description: string;
+  userId: string;
+  originalUrl: string;
   expiresAt: Date;
   password: string | null;
   time: string;
