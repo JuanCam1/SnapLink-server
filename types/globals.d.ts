@@ -7,22 +7,27 @@ import type { MultipleModel } from "./multiple-modal";
 import type { TokenData, TokenPayload } from "./token-model";
 
 import type {
-	LoginModel,
-	RegisterModel,
-	PayloadModel,
-	ResponseLoginModel,
+  LoginModel,
+  RegisterModel,
+  PayloadModel,
+  ResponseLoginModel,
 } from "./auth-model";
+import type { getLinksByIdUserModel, LinkModel, LinkUpdateModel } from "./link-model";
 
 declare global {
-	type SendResponseI<T> = SendResponse<T>;
-	type StateModelI = StateModel;
-	type StateTypeModelI = StateTypeModel;
-	type ThemeI = Theme;
-	type TokenPayloadI = TokenPayload;
-	type PaginationAllI = PaginationAll;
-	type TokenDataI = TokenData;
-	type LoginModelI = LoginModel;
-	type RegisterModelI = RegisterModel;
-	type PayloadModelI = PayloadModel;
-	type ResponseLoginModelI = ResponseLoginModel;
+  type SendResponseI<T> = SendResponse<T>;
+  type StateModelI = StateModel;
+  type StateTypeModelI = StateTypeModel;
+  type ThemeI = Theme;
+  type TokenPayloadI = TokenPayload;
+  type PaginationAllI = PaginationAll;
+  type TokenDataI = TokenData;
+  type LoginModelI = LoginModel;
+  type RegisterModelI = RegisterModel;
+  type PayloadModelI = PayloadModel;
+  type ResponseLoginModelI = ResponseLoginModel;
+
+  type LinkModelI = LinkModel;
+  type LinkUpdateModelI = LinkUpdateModel;
+  type getLinksByIdUserModelI = getLinksByIdUserModel;
 }

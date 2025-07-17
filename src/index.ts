@@ -8,6 +8,7 @@ import helmet from "helmet";
 import cors from "cors";
 
 import { dataInit } from "./data";
+import Config from "./util/config";
 
 const app = express();
 
@@ -27,10 +28,12 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use("/api", router);
 
+const port = Config.getInstance().get("port")
+
 const start = (): void => {
 	try {
-		app.listen(3000, () => {
-			console.log("Server started on port 3000");
+		app.listen(port, () => {
+			console.log(`Server started on port ${port}`);
 		});
 	} catch (error) {
 		console.error(error);
